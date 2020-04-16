@@ -6,21 +6,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace PlantIO.Data
 {
-    public class PlantDbContextFactory : IDesignTimeDbContextFactory<PlantDbContext>
+    public class CultivarDbContextDesignTimeFactory : IDesignTimeDbContextFactory<CultivarDbContext>
     {
-        public PlantDbContext CreateDbContext(string[] args)
+        public CultivarDbContext CreateDbContext(string[] args)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var builder = new DbContextOptionsBuilder<PlantDbContext>();
+            var builder = new DbContextOptionsBuilder<CultivarDbContext>();
             var connectionString = configuration.GetConnectionString("Default");
 
             builder.UseSqlite(new SqliteConnection(connectionString));
 
-            return new PlantDbContext(builder.Options);
+            return new CultivarDbContext(builder.Options);
         }
     }
 

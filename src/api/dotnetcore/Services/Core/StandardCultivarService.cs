@@ -11,11 +11,11 @@ namespace PlantIO.Services
     public abstract class StandardCultivarService<TEntity>
         where TEntity : class
     {
-        public PlantDbContext Db { get; protected set; }
+        public CultivarDbContext Db { get; protected set; }
         public DbSet<TEntity> DbSet { get; protected set; }
         protected virtual DbSet<TEntity> GetDbSet() => Db.Set<TEntity>();
 
-        public StandardCultivarService(PlantDbContext db)
+        public StandardCultivarService(CultivarDbContext db)
         {
             this.Db = db;
             this.DbSet = GetDbSet();

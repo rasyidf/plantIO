@@ -1,14 +1,16 @@
-﻿using System;
+﻿using System.Security.Cryptography;
+using System;
 using PlantIO.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace PlantIO.Data
 {
-    public partial class PlantDbContext : DbContext
+    public partial class CultivarDbContext : DbContext
     {
-        public PlantDbContext(DbContextOptions options)
+        public CultivarDbContext(DbContextOptions options)
             : base(options)
         {
+
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
@@ -18,5 +20,7 @@ namespace PlantIO.Data
             ConfigureCoreEntities(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
+
+
     }
 }

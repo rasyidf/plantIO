@@ -1,2 +1,0 @@
-Philo
-Classification
