@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+
 namespace PlantIO.WebApi
 {
     public class Startup
@@ -27,7 +28,10 @@ namespace PlantIO.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
             services.AddAutoMapper(typeof(Startup));
+
+            // #TODO: configure which datase EF will use and remove SQLite from Data.EF.csproj
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

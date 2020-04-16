@@ -1,6 +1,6 @@
 using System;
 
-namespace PlantIO.Entities
+namespace PlantIO.Entities.Cultivar
 {
     public class CultivarPopularName : IMultiDataSetRegionalData
     {
@@ -15,5 +15,16 @@ namespace PlantIO.Entities
         public string LanguageCultureName { get; set; }
 
         public string Name { get; set; }
+
+        public CultivarPopularNameUsages Usage { get; set; }
+    }
+
+    [Flags]
+    public enum CultivarPopularNameUsages : byte
+    {
+        Any = 0,
+        Farming = 1,
+        Conversation = 2,
+        Comercial = 4,
     }
 }

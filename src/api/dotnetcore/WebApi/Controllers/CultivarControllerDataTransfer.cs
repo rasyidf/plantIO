@@ -7,7 +7,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PlantIO.Entities;
+using PlantIO.Entities.Cultivar;
+using PlantIO.Entities.Taxonomy;
 using PlantIO.Services;
+
+// #refactor: DTOS
 
 namespace PlantIO.WebApi.Controllers
 {
@@ -15,32 +19,33 @@ namespace PlantIO.WebApi.Controllers
     {
         public CultivarControllerDataTransfer()
         {
-            CreateMap<Cultivar, AddCultivarCommand>();
+            //CreateMap<Cultivar, CreateCultivarRequest>(); 
         }
     }
 
-    public class AddCultivarCommand
+    public class CreateCultivarRequest
     {
-        public Guid CultivarId { get; set; }
+        public string ScientificName { get; set; }
+        public int TaxaHierarchyId { get; set; }
 
-        public virtual CultivarNameIdentifier Identifier { get; set; }
+        public virtual List<CultivarIdentifierRequest> Identifiers { get; set; }
+        public virtual List<CultivarPopularNameRequest> PopularNames { get; set; }
 
-        public virtual ICollection<ICultivarCharacteristic> Characteristics { get; set; }
-        
-        public virtual ICollection<ICultivarInteraction> Interactions { get; set; }
-        public ICollection<CultivarPopularNameRequest> PopularNames;
+        // public virtual ICollection<ICultivarCharacteristic> Characteristics { get; set; }
+        // public virtual ICollection<ICultivarInteraction> Interactions { get; set; }
+        // public ICollection<CultivarPopularNameRequest> PopularNames;
     }
 
-    public class CultivarNameRequest
+    public class CultivarIdentifierRequest : ITaxon
     {
-
+        public string TaxonType { get; set; }
+        public string Value { get; set; }
     }
 
-    public class CultivarPopularNameRequest : CultivarPopularName
+    public class CultivarPopularNameRequest
     {
-        new private Guid? DataSetId { get; set; }
+        // private Guid? DataSetId { get; set; }
 
-        [DataMember(Name = "culture")]
-        new public string LanguageCultureName { get; set; }
+        public string Culture { get; set; }
     }
 }
