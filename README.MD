@@ -6,7 +6,7 @@
 
 This project aims to deliver an open-source cultivar catalog to assist the farmer on cultivar choice.
 
-## [Taxonomy](Entities\Domains\Taxonomy\README.MD)
+## [Taxonomy](src/api/dotnetcore/Entities/Domains/Taxonomy/README.MD)
 - Overview
     - Entities (Taxonomic Code, Taxonomic Methodology, Taxon, Grouping Taxon, Rank Hierarchy, Species)
     - Data (SQL/EF)  
