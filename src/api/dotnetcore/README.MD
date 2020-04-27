@@ -1,29 +1,7 @@
 # 🚧
 # Introduction
 
-## Architecture
-
-- PlantIO.Core
-    - Entities
-        - [Cultivar](Entities\Cultivar\README.MD)
-            - Taxonomy
-            - Phenology
-    
-    - Data
-        - EF/SQL (ranks / taxonomy) #todo:(clades)
-        - noSQL (clades / taxonomy) #todo: #review:
-
-- PlantIO.History/PlantIO.Projection
-    - Entities
-    - Data
-        - EF/SQL (structured report data?, etc)
-        - noSQL: MongoDB, neDB (records)
-
-- PlantIO.Spatial
-    - Entities
-        - x
-
-🚧 subdomains are kept in the same projects but may be splited if it becomes evident and necessary
+🚧 #todo: subdomains are currently in the same projects but there are plans to make a taxonomy.sln (or even a new GitHub project)
 
 # WIKI - Coding style
 * Infrastructure folders are namespaced using default namespace of its project, except for very specific technology-related or subdomain cases.
@@ -45,3 +23,7 @@ For convenience and practicity, at least until "release 1", the code may contain
     - keys first
     - infrastructure and context last
     - in some cases context can be first
+
+## Technical-debt:
+
+- on Debug.Assert() calls, use code contracts, Nullable Reference Types or some other parameter check utility

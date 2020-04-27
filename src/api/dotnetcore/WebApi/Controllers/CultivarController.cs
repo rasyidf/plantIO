@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PlantIO.Data;
+using PlantIO.Data.Seed;
 using PlantIO.Entities;
 using PlantIO.Entities.Cultivar;
 using PlantIO.Services;
@@ -34,14 +35,23 @@ namespace PlantIO.WebApi.Controllers
         [HttpGet]
         public IEnumerable<Cultivar> Get()
         {
-            return _db.Cultivars.ToList();
+            return null;
+            //return _db.Cultivars.ToList();
+        }
+
+        [HttpGet]
+        [Route("seed")]
+        public void Seed()
+        {
+            DevelopmentSeed.Test(_db);
+            //return _db.Cultivars.ToList();
         }
 
         // #todo:
         [HttpPost]
         public async Task<IAsyncResult> Post(CreateCultivarRequest command)
         {
-            // #review: this project don't have lots of entities, manual mappings could fit better than automapper.
+            // #note: this project don't have lots of complex/referential entities, manual mappings could fit better than automapper.
             // var cultivar = _mapper.Map<Cultivar>(command);
             // await cultivarService.AddAsync(cultivar);
             return Task.FromResult(Ok());

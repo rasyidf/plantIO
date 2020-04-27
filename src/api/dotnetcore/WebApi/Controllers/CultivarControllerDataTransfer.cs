@@ -36,9 +36,14 @@ namespace PlantIO.WebApi.Controllers
         // public ICollection<CultivarPopularNameRequest> PopularNames;
     }
 
-    public class CultivarIdentifierRequest : ITaxon
+    public class CultivarIdentifierRequest
     {
-        public string TaxonType { get; set; }
+        public List<TaxonValueRequest> Taxons { get; set; }
+    }
+
+    public class TaxonValueRequest
+    {
+        public int TaxonId { get; set; }
         public string Value { get; set; }
     }
 

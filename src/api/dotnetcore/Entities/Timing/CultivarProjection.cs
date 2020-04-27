@@ -7,7 +7,7 @@ namespace PlantIO.Entities.Timing
     {
         public Guid CultivarId { get; set; }
 
-        public virtual ICollection<ICultivarCharacteristic> Characteristics { get; set; }
+        //public virtual ICollection<ICultivarCharacteristic> Characteristics { get; set; }
 
         public virtual ICollection<ICultivarInteraction> Interactions { get; set; }
     }

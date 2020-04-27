@@ -16,94 +16,360 @@ namespace Data.EF.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3");
 
-            modelBuilder.Entity("PlantIO.Entities.Cultivar.Cultivar", b =>
+            modelBuilder.Entity("PlantIO.Botany.BotanicFeature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ScientificName")
+                    b.Property<string>("Identifier")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cultivars");
+                    b.ToTable("BotanicFeature");
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Cultivar.CultivarIdentifier", b =>
-                {
-                    b.Property<Guid?>("DataSetId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CultivarId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TaxonomicCode")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(32);
-
-                    b.Property<string>("TaxonomicCodeVersion")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(32);
-
-                    b.Property<int?>("TaxaHierarchyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte>("Usage")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DataSetId", "CultivarId", "TaxonomicCode", "TaxonomicCodeVersion", "TaxaHierarchyId");
-
-                    b.HasIndex("CultivarId");
-
-                    b.HasIndex("TaxaHierarchyId");
-
-                    b.ToTable("CultivarIdentifier");
-                });
-
-            modelBuilder.Entity("PlantIO.Entities.Cultivar.CultivarPopularName", b =>
-                {
-                    b.Property<Guid?>("DataSetId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LanguageCultureName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CultivarId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("RegionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte>("Usage")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("DataSetId", "LanguageCultureName", "CultivarId", "RegionId");
-
-                    b.HasIndex("CultivarId");
-
-                    b.ToTable("CultivarPopularName");
-                });
-
-            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxaHierarchy", b =>
+            modelBuilder.Entity("PlantIO.Botany.BotanicFeatureRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("HierarchyKey")
+                    b.Property<Guid?>("DataSetId")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("FeatureId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("RegionId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Types")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeatureId");
+
+                    b.ToTable("BotanicFeatureRange");
+                });
+
+            modelBuilder.Entity("PlantIO.Botany.BotanicLifeCycle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Identifier")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BotanicLifeCycle");
+                });
+
+            modelBuilder.Entity("PlantIO.Botany.TaxonBotanicFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("BotanicFeatureId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BotanicFeatureId");
+
+                    b.HasIndex("TaxonId");
+
+                    b.ToTable("TaxonBotanicFeature");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MethodologyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RankId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TaxaPhilosophy")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("TaxonomicCode")
+                    b.Property<int>("TaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TaxonTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RankId")
+                        .IsUnique();
+
+                    b.HasIndex("TaxonTypeId");
+
+                    b.HasIndex("MethodologyId", "TaxonTypeId", "TaxonId")
+                        .IsUnique();
+
+                    b.ToTable("Taxon_Grouping");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxonRank", b =>
+                {
+                    b.Property<int>("GroupingTaxonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RankHierarchyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RankTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("GroupingTaxonId");
+
+                    b.HasIndex("RankHierarchyId");
+
+                    b.HasIndex("RankTypeId");
+
+                    b.ToTable("Taxon_Rank");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxonRelation", b =>
+                {
+                    b.Property<int>("MethodologyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupingTaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TaxonTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MethodologyId", "GroupingTaxonId", "TaxonTypeId");
+
+                    b.HasIndex("GroupingTaxonId");
+
+                    b.HasIndex("TaxonId");
+
+                    b.HasIndex("TaxonTypeId");
+
+                    b.ToTable("Taxon_GroupingRelations");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.SpeciesTaxonEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BinomialName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxonId");
+
+                    b.ToTable("SpeciesTaxonEntity");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.SpeciesTaxonGroupRelation", b =>
+                {
+                    b.Property<int>("MethodologyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupingTaxonTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SpeciesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupingTaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MethodologyId", "GroupingTaxonTypeId", "SpeciesId");
+
+                    b.HasIndex("GroupingTaxonId");
+
+                    b.HasIndex("GroupingTaxonTypeId");
+
+                    b.HasIndex("SpeciesId");
+
+                    b.ToTable("SpeciesTaxonGroupRelation");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.Taxon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("GroupingTaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Identifier")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MethodologyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupingTaxonId")
+                        .IsUnique();
+
+                    b.HasIndex("MethodologyId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Taxon");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonEntry", b =>
+                {
+                    b.Property<int>("TargetTaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("TargetTaxonId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("TaxonEntry");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LatinName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MethodologyId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MethodologyId");
+
+                    b.ToTable("TaxonType");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonTypeRank", b =>
+                {
+                    b.Property<int>("TaxonTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ConnectingTermUsage")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HierarchyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<sbyte>("SubLevel")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TaxonTypeId");
+
+                    b.HasIndex("HierarchyId");
+
+                    b.ToTable("TaxonTypeRank");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicCode", b =>
+                {
+                    b.Property<string>("Identifier")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Philosophy")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Identifier", "Version");
+
+                    b.ToTable("TaxonomicCode");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicMethodology", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Identifier")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Philosophy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TaxonomicCodeIdentifier")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TaxonomicCodeVersion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxonomicCodeIdentifier", "TaxonomicCodeVersion");
+
+                    b.ToTable("TaxonMethodology");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicMethodologyRankHierarchy", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TaxonomicCodeIdentifier")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TaxonomicCodeVersion")
@@ -111,109 +377,267 @@ namespace Data.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaxaHierarchies");
+                    b.HasIndex("TaxonomicCodeIdentifier", "TaxonomicCodeVersion");
+
+                    b.ToTable("TaxonMethodologyHierarchy");
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxaHierarchyRank", b =>
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicTag", b =>
                 {
-                    b.Property<int>("HierarchyId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("TaxonType")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ConnectingTermUsage")
+                    b.Property<int>("TypeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Level")
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("TaxonomicTag");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicTagValue", b =>
+                {
+                    b.Property<int>("TaxonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("HierarchyId", "TaxonType");
+                    b.HasKey("TaxonId", "TagId");
 
-                    b.ToTable("TaxaHierarchyRank");
+                    b.HasIndex("TagId");
+
+                    b.ToTable("TaxonomicTagValue");
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxaHierarchyTaxonValue", b =>
+            modelBuilder.Entity("PlantIO.Botany.BotanicFeatureRange", b =>
                 {
-                    b.Property<int>("HierarchyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TaxonType")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(32);
-
-                    b.Property<Guid?>("CultivarIdentifierCultivarId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CultivarIdentifierDataSetId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("CultivarIdentifierTaxaHierarchyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CultivarIdentifierTaxonomicCode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CultivarIdentifierTaxonomicCodeVersion")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("HierarchyId", "TaxonType");
-
-                    b.HasIndex("CultivarIdentifierDataSetId", "CultivarIdentifierCultivarId", "CultivarIdentifierTaxonomicCode", "CultivarIdentifierTaxonomicCodeVersion", "CultivarIdentifierTaxaHierarchyId");
-
-                    b.ToTable("TaxaHierarchyTaxonValue");
+                    b.HasOne("PlantIO.Botany.TaxonBotanicFeature", "Feature")
+                        .WithMany("RangeValues")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Cultivar.CultivarIdentifier", b =>
+            modelBuilder.Entity("PlantIO.Botany.TaxonBotanicFeature", b =>
                 {
-                    b.HasOne("PlantIO.Entities.Cultivar.Cultivar", "Cultivar")
-                        .WithMany("Identifiers")
-                        .HasForeignKey("CultivarId")
+                    b.HasOne("PlantIO.Botany.BotanicFeature", "BotanicFeature")
+                        .WithMany("TaxonRelations")
+                        .HasForeignKey("BotanicFeatureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlantIO.Entities.Taxonomy.TaxaHierarchy", "TaxaHierarchy")
+                    b.HasOne("PlantIO.Entities.Taxonomy.Taxon", "Taxon")
                         .WithMany()
-                        .HasForeignKey("TaxaHierarchyId")
+                        .HasForeignKey("TaxonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Cultivar.CultivarPopularName", b =>
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxon", b =>
                 {
-                    b.HasOne("PlantIO.Entities.Cultivar.Cultivar", null)
-                        .WithMany("PopularNames")
-                        .HasForeignKey("CultivarId")
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithMany("GroupingTaxons")
+                        .HasForeignKey("MethodologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.GroupingTaxonRank", "Rank")
+                        .WithOne("GroupingTaxon")
+                        .HasForeignKey("PlantIO.Entities.Taxonomy.GroupingTaxon", "RankId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "TaxonType")
+                        .WithMany()
+                        .HasForeignKey("TaxonTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxaHierarchyRank", b =>
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxonRank", b =>
                 {
-                    b.HasOne("PlantIO.Entities.Taxonomy.TaxaHierarchy", "Hierarchy")
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodologyRankHierarchy", "RankHierarchy")
                         .WithMany("Ranks")
-                        .HasForeignKey("HierarchyId")
+                        .HasForeignKey("RankHierarchyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonTypeRank", "RankType")
+                        .WithMany()
+                        .HasForeignKey("RankTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxaHierarchyTaxonValue", b =>
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.GroupingTaxonRelation", b =>
                 {
-                    b.HasOne("PlantIO.Entities.Taxonomy.TaxaHierarchy", "Hierarchy")
+                    b.HasOne("PlantIO.Entities.Taxonomy.GroupingTaxon", "GroupingTaxon")
+                        .WithMany("TaxonRelations")
+                        .HasForeignKey("GroupingTaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithMany("GroupingTaxonRelations")
+                        .HasForeignKey("MethodologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.Taxon", "Taxon")
+                        .WithMany("GroupingTaxonRelations")
+                        .HasForeignKey("TaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "TaxonType")
                         .WithMany()
+                        .HasForeignKey("TaxonTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.SpeciesTaxonEntity", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.Taxon", "Taxon")
+                        .WithMany()
+                        .HasForeignKey("TaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.SpeciesTaxonGroupRelation", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.GroupingTaxon", "GroupingTaxon")
+                        .WithMany("SpeciesTaxonRelations")
+                        .HasForeignKey("GroupingTaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "GroupingTaxonType")
+                        .WithMany()
+                        .HasForeignKey("GroupingTaxonTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithMany()
+                        .HasForeignKey("MethodologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.SpeciesTaxonEntity", "Species")
+                        .WithMany("GroupingTaxonRelations")
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.Taxon", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.GroupingTaxon", "GroupingTaxon")
+                        .WithOne("Taxon")
+                        .HasForeignKey("PlantIO.Entities.Taxonomy.Taxon", "GroupingTaxonId");
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithMany("Taxons")
+                        .HasForeignKey("MethodologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "Type")
+                        .WithMany("Taxons")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonEntry", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.Taxon", "TargetTaxon")
+                        .WithMany("Entries")
+                        .HasForeignKey("TargetTaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonType", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithMany("TaxonTypes")
+                        .HasForeignKey("MethodologyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonTypeRank", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodologyRankHierarchy", "Hierarchy")
+                        .WithMany("RankTypes")
                         .HasForeignKey("HierarchyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlantIO.Entities.Cultivar.CultivarIdentifier", null)
-                        .WithMany("TaxaHierarchyTaxonValues")
-                        .HasForeignKey("CultivarIdentifierDataSetId", "CultivarIdentifierCultivarId", "CultivarIdentifierTaxonomicCode", "CultivarIdentifierTaxonomicCodeVersion", "CultivarIdentifierTaxaHierarchyId");
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "TaxonType")
+                        .WithOne("Rank")
+                        .HasForeignKey("PlantIO.Entities.Taxonomy.TaxonTypeRank", "TaxonTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicMethodology", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicCode", "TaxonomicCode")
+                        .WithMany("Methodologies")
+                        .HasForeignKey("TaxonomicCodeIdentifier", "TaxonomicCodeVersion");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicMethodologyRankHierarchy", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicMethodology", "Methodology")
+                        .WithOne("RankedHierarchy")
+                        .HasForeignKey("PlantIO.Entities.Taxonomy.TaxonomicMethodologyRankHierarchy", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicCode", null)
+                        .WithMany("RankBasedMethodologies")
+                        .HasForeignKey("TaxonomicCodeIdentifier", "TaxonomicCodeVersion");
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicTag", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonType", "Type")
+                        .WithMany("Tags")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlantIO.Entities.Taxonomy.TaxonomicTagValue", b =>
+                {
+                    b.HasOne("PlantIO.Entities.Taxonomy.TaxonomicTag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantIO.Entities.Taxonomy.Taxon", "Taxon")
+                        .WithMany("Tags")
+                        .HasForeignKey("TaxonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
